@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Kindle - Lời Chúa Hằng Ngày</title>
   <style>
     body {
@@ -67,58 +67,32 @@
   </section>
 
   <script>
-    function getTodayMysteries() {
-      const days = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
-      const mysteries = {
-        "Thứ Hai": [
-          "Thứ nhất: Thiên Thần truyền tin cho Đức Bà chịu thai. Ta hãy xin cho được ở khiêm nhường.",
-          "Thứ hai: Đức Bà đi viếng Bà thánh Isave. Ta hãy xin cho được lòng yêu người.",
-          "Thứ ba: Đức Bà sinh Đức Chúa Giêsu nơi hang đá. Ta hãy xin cho được lòng khó khăn.",
-          "Thứ tư: Đức Bà dâng Đức Chúa Giêsu trong đền thánh. Ta hãy xin cho được vâng lời chịu lụy.",
-          "Thứ năm: Đức Bà tìm được Đức Chúa Giêsu trong đền thánh. Ta hãy xin cho được giữ nghĩa cùng Chúa luôn."
-        ],
-        "Thứ Ba": [
-          "Thứ nhất: Đức Chúa Giêsu chịu phép Rửa tại sông Giođan. Ta hãy xin cho được sống xứng đáng là con cái Chúa.",
-          "Thứ hai: Đức Chúa Giêsu làm phép lạ tại tiệc cưới Cana. Ta hãy xin cho được vững tin vào quyền năng của Ngài.",
-          "Thứ ba: Đức Chúa Giêsu rao giảng Nước Trời và kêu gọi sám hối. Ta hãy xin cho được hoán cải và tin vào Tin Mừng.",
-          "Thứ tư: Đức Chúa Giêsu biến hình trên núi. Ta hãy xin cho được lắng nghe và thực hành lời Chúa.",
-          "Thứ năm: Đức Chúa Giêsu lập bí tích Thánh Thể. Ta hãy xin cho được siêng năng rước lễ."
-        ],
-        "Thứ Tư": [
-          "Thứ nhất: Đức Chúa Giêsu lo buồn đổ mồ hôi máu. Ta hãy xin cho được ăn năn tội nên.",
-          "Thứ hai: Đức Chúa Giêsu chịu đánh đòn. Ta hãy xin cho được hãm mình chịu khó bằng lòng.",
-          "Thứ ba: Đức Chúa Giêsu chịu đội mão gai. Ta hãy xin cho được chịu mọi sự sỉ nhục bằng lòng.",
-          "Thứ tư: Đức Chúa Giêsu vác cây Thánh Giá. Ta hãy xin cho được vác Thánh Giá theo chân Chúa.",
-          "Thứ năm: Đức Chúa Giêsu chịu chết trên Thánh Giá. Ta hãy xin cho được đóng đinh tính xác thịt vào Thánh Giá Chúa."
-        ],
-        "Thứ Năm": [
-          "Thứ nhất: Đức Chúa Giêsu sống lại. Ta hãy xin cho được sống lại thật về phần linh hồn.",
-          "Thứ hai: Đức Chúa Giêsu lên trời. Ta hãy xin cho được ái mộ những sự trên trời.",
-          "Thứ ba: Đức Chúa Thánh Thần hiện xuống. Ta hãy xin cho được lòng đầy dẫy mọi ơn Đức Thánh Thần.",
-          "Thứ tư: Đức Mẹ lên trời. Ta hãy xin ơn chết lành trong tay Đức Mẹ.",
-          "Thứ năm: Đức Mẹ được đội mão trên trời. Ta hãy xin ơn trung thành với Mẹ đến trọn đời."
-        ]
-      };
-      const today = new Date();
-      let dow = days[today.getDay()];
-      if (dow === "Chủ Nhật") dow = "Thứ Năm";
-      const todaysMysteries = mysteries[dow] || [];
-      const randomMystery = todaysMysteries[Math.floor(Math.random() * todaysMysteries.length)] || "[Không có dữ liệu]";
-      document.getElementById("rosaryBlock").textContent = randomMystery;
-    }
-
-    function copySection(id) {
+    async function copySection(id) {
       const text = document.getElementById(id).textContent;
-      navigator.clipboard.writeText(text)
-        .then(() => alert("📋 Đã sao chép mục này!"))
-        .catch(err => alert("Lỗi khi sao chép: " + err));
+      try {
+        await navigator.clipboard.writeText(text);
+        alert("📋 Đã sao chép mục này!");
+      } catch (err) {
+        alert("Lỗi sao chép: " + err);
+      }
     }
 
-    async function fetchViaProxy(targetUrl) {
-      const proxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl);
-      const res = await fetch(proxy);
-      const data = await res.json();
-      return data.contents;
+    function getTodayMystery() {
+      const weekdays = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+      const mysteries = {
+        "Thứ Hai": [...],
+        "Thứ Ba": [...],
+        "Thứ Tư": [...],
+        "Thứ Năm": [...],
+        "Thứ Sáu": [...],
+        "Thứ Bảy": [...],
+        "Chủ Nhật": [...]
+      };
+      const day = new Date().getDay();
+      const today = weekdays[day];
+      const list = mysteries[today] || [];
+      const random = list[Math.floor(Math.random() * list.length)] || "[Không có dữ liệu]";
+      document.getElementById("rosaryBlock").textContent = random;
     }
 
     async function fetchGospel() {
@@ -127,36 +101,35 @@
         const y = today.getFullYear();
         const m = String(today.getMonth() + 1).padStart(2, '0');
         const d = String(today.getDate()).padStart(2, '0');
-        const url = `https://www.vaticannews.va/vi/loi-chua-hang-ngay/${y}/${m}/${d}.html`;
-        const html = await fetchViaProxy(url);
-        const citationMatch = html.match(/<h3.*?>(.*?)<\/h3>/);
-        const bodyMatch = html.match(/<p class="bible">(.*?)<\/p>/gs);
-        const citation = citationMatch ? citationMatch[1] : '[Không rõ đoạn]';
-        const content = bodyMatch ? bodyMatch.map(p => p.replace(/<[^>]*>/g, '').replace(/\d+/g, '')).join('\n') : '[Không lấy được nội dung]';
-        document.getElementById('gospelBlock').textContent = citation + '\n' + content;
+        const url = `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://www.vaticannews.va/vi/loi-chua-hang-ngay/${y}/${m}/${d}.html`)}`;
+        const res = await fetch(url);
+        const html = await res.text();
+        const citation = html.match(/<h3.*?>(.*?)<\/h3>/)?.[1] || "[Không rõ đoạn]";
+        const verses = [...html.matchAll(/<p class="bible">(.*?)<\/p>/g)].map(p => p[1].replace(/<[^>]+>/g, '').replace(/\^\{\d+\}/g, ''));
+        document.getElementById("gospelBlock").textContent = `${citation}\n\n${verses.join("\n")}`;
       } catch {
-        document.getElementById('gospelBlock').textContent = '[Lỗi tải Tin Mừng]';
+        document.getElementById("gospelBlock").textContent = "[Lỗi tải Tin Mừng]";
       }
     }
 
     async function fetchReflection() {
       try {
-        const url = `https://thanhlinh.net/vi/suy-niem-122`;
-        const html = await fetchViaProxy(url);
-        const contentMatch = html.match(/<div class="field-item even">([\s\S]+?)<\/div>/);
-        const clean = contentMatch ? contentMatch[1].replace(/<[^>]+>/g, '') : '[Không có nội dung]';
-        const parts = clean.split(/(Suy niệm:|Mời Bạn:|Sống Lời Chúa:|Cầu nguyện:)/).slice(1);
-        let result = '';
-        for (let i = 0; i < parts.length; i += 2) {
-          result += parts[i].trim() + '\n' + parts[i + 1].trim() + '\n\n';
+        const url = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://thanhlinh.net/vi/suy-niem-122')}`;
+        const res = await fetch(url);
+        const html = await res.text();
+        const clean = html.replace(/<[^>]+>/g, '').replace(/\r?\n|\r/g, '\n');
+        const blocks = clean.split(/(Suy niệm:|Mời Bạn:|Sống Lời Chúa:|Cầu nguyện:)/).slice(1);
+        let output = '';
+        for (let i = 0; i < blocks.length; i += 2) {
+          output += blocks[i] + '\n' + blocks[i + 1].trim() + '\n\n';
         }
-        document.getElementById('reflectionBlock').textContent = result.trim();
+        document.getElementById("reflectionBlock").textContent = output.trim();
       } catch {
-        document.getElementById('reflectionBlock').textContent = '[Lỗi tải Suy Niệm]';
+        document.getElementById("reflectionBlock").textContent = "[Lỗi tải Suy Niệm]";
       }
     }
 
-    getTodayMysteries();
+    getTodayMystery();
     fetchGospel();
     fetchReflection();
   </script>
