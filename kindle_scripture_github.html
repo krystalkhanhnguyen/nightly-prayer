@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kindle - Lời Chúa Hằng Ngày</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #333;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+      line-height: 1.6;
+    }
+    h1 {
+      text-align: center;
+      color: #4b2a77;
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+    .label {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    .block {
+      background: #f7f7f7;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      white-space: pre-wrap;
+    }
+    button {
+      background: #b39ddb;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    button:hover {
+      background: #9e86ca;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌸 Kindle - Lời Chúa Hằng Ngày</h1>
+
+  <section>
+    <div class="label">📿 Mầu nhiệm Mân Côi hôm nay:</div>
+    <div class="block" id="rosaryBlock">Đang tải...</div>
+    <button onclick="copySection('rosaryBlock')">📋 Sao chép Mầu nhiệm</button>
+  </section>
+
+  <section>
+    <div class="label">📖 Bài Tin Mừng hôm nay:</div>
+    <div class="block" id="gospelBlock">Đang tải...</div>
+    <button onclick="copySection('gospelBlock')">📋 Sao chép Tin Mừng</button>
+  </section>
+
+  <section>
+    <div class="label">📝 Suy Niệm hôm nay:</div>
+    <div class="block" id="reflectionBlock">Đang tải...</div>
+    <button onclick="copySection('reflectionBlock')">📋 Sao chép Suy Niệm</button>
+  </section>
+
+  <script>
+    const mysteries = {
+      "Thứ Hai": [
+        "Thứ nhất: Thiên Thần truyền tin cho Đức Bà chịu thai. Ta hãy xin cho được ở khiêm nhường.",
+        "Thứ hai: Đức Bà đi viếng Bà thánh Isave. Ta hãy xin cho được lòng yêu người.",
+        "Thứ ba: Đức Bà sinh Đức Chúa Giêsu nơi hang đá. Ta hãy xin cho được lòng khó khăn.",
+        "Thứ tư: Đức Bà dâng Đức Chúa Giêsu trong đền thánh. Ta hãy xin cho được vâng lời chịu lụy.",
+        "Thứ năm: Đức Bà tìm được Đức Chúa Giêsu trong đền thánh. Ta hãy xin cho được giữ nghĩa cùng Chúa luôn."
+      ],
+      "Thứ Ba": [
+        "Thứ nhất: Đức Chúa Giêsu chịu phép Rửa tại sông Giođan. Ta hãy xin cho được sống xứng đáng là con cái Chúa.",
+        "Thứ hai: Đức Chúa Giêsu làm phép lạ tại tiệc cưới Cana. Ta hãy xin cho được vững tin vào quyền năng của Ngài.",
+        "Thứ ba: Đức Chúa Giêsu rao giảng Nước Trời và kêu gọi sám hối. Ta hãy xin cho được hoán cải và tin vào Tin Mừng.",
+        "Thứ tư: Đức Chúa Giêsu biến hình trên núi. Ta hãy xin cho được lắng nghe và thực hành lời Chúa.",
+        "Thứ năm: Đức Chúa Giêsu lập bí tích Thánh Thể. Ta hãy xin cho được siêng năng rước lễ."
+      ],
+      "Thứ Tư": [
+        "Thứ nhất: Đức Chúa Giêsu lo buồn đổ mồ hôi máu. Ta hãy xin cho được ăn năn tội nên.",
+        "Thứ hai: Đức Chúa Giêsu chịu đánh đòn. Ta hãy xin cho được hãm mình chịu khó bằng lòng.",
+        "Thứ ba: Đức Chúa Giêsu chịu đội mão gai. Ta hãy xin cho được chịu mọi sự sỉ nhục bằng lòng.",
+        "Thứ tư: Đức Chúa Giêsu vác cây Thánh Giá. Ta hãy xin cho được vác Thánh Giá theo chân Chúa.",
+        "Thứ năm: Đức Chúa Giêsu chịu chết trên Thánh Giá. Ta hãy xin cho được đóng đinh tính xác thịt vào Thánh Giá Chúa."
+      ],
+      "Thứ Năm": [
+        "Thứ nhất: Đức Chúa Giêsu sống lại. Ta hãy xin cho được sống lại thật về phần linh hồn.",
+        "Thứ hai: Đức Chúa Giêsu lên trời. Ta hãy xin cho được ái mộ những sự trên trời.",
+        "Thứ ba: Đức Chúa Thánh Thần hiện xuống. Ta hãy xin cho được lòng đầy dẫy mọi ơn Đức Thánh Thần.",
+        "Thứ tư: Đức Mẹ lên trời. Ta hãy xin ơn chết lành trong tay Đức Mẹ.",
+        "Thứ năm: Đức Mẹ được đội mão trên trời. Ta hãy xin ơn trung thành với Mẹ đến trọn đời."
+      ]
+    };
+
+    function getTodayMysteries() {
+      const days = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+      const today = new Date();
+      let dow = days[today.getDay()];
+      if (dow === "Chủ Nhật") dow = "Thứ Năm";
+      const todaysMysteries = mysteries[dow] || [];
+      const randomMystery = todaysMysteries[Math.floor(Math.random() * todaysMysteries.length)] || "[Không có dữ liệu]";
+      document.getElementById("rosaryBlock").textContent = randomMystery;
+    }
+
+    function copySection(id) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text)
+        .then(() => alert("📋 Đã sao chép mục này!"))
+        .catch(err => alert("Lỗi khi sao chép: " + err));
+    }
+
+    getTodayMysteries();
+  </script>
+</body>
+</html>
